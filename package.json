@@ -1,0 +1,29 @@
+{
+  "name": "api-ws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JhonMurillo/api-ws.git"
+  },
+  "author": "Jhon Murillo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JhonMurillo/api-ws/issues"
+  },
+  "homepage": "https://github.com/JhonMurillo/api-ws#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "debug": "^3.1.0",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "standard": "^11.0.1"
+  }
+}
