@@ -19,9 +19,17 @@
   },
   "homepage": "https://github.com/JhonMurillo/api-ws#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "debug": "^3.1.0",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "express-asyncify": "^1.0.0",
+    "express-jwt": "^5.3.1",
+    "express-useragent": "^1.0.12",
+    "firebase": "^5.0.4",
+    "jsonwebtoken": "^8.3.0",
+    "moment": "^2.22.2",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "standard": "^11.0.1"

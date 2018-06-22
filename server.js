@@ -5,12 +5,17 @@ const express = require('express')
 const api = require('./api-url')
 const debug = require('debug')('api:ws')
 const chalk = require('chalk')
-const app = express()
+const asyncify = require('express-asyncify')
+const bodyParser = require('body-parser');
+const app = asyncify(express())
 
 const port = process.env.PORT || 4000
 const server = http.createServer(app)
-app.use('/api', api)
 
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use('/api', api)
 app.use((err, req, res, next) => {
   debug(`Error ${err.message}`)
   if (err.message.match(/not found/)) {
