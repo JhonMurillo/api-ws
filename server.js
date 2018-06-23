@@ -6,12 +6,11 @@ const api = require('./api-url')
 const debug = require('debug')('api:ws')
 const chalk = require('chalk')
 const asyncify = require('express-asyncify')
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
 const app = asyncify(express())
 
 const port = process.env.PORT || 4000
 const server = http.createServer(app)
-
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -21,7 +20,10 @@ app.use((err, req, res, next) => {
   if (err.message.match(/not found/)) {
     res.status(404).send({ error: err.message })
   }
-  res.status(500).send({ error: err.message })
+  if (err.message.match(/bad request/)) {
+    res.status(400).send({ error: err.message })
+  }
+  res.status(500).send({ error: err.stack })
 })
 
 function handleFatalError (err) {
