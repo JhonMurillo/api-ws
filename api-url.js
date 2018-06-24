@@ -34,7 +34,17 @@ api.get('/test', (req, res, next) => {
   res.send('Endpoint Worked!')
 })
 
-api.post('/save', upload.single('file'), async (req, res, next) => {
+api.get('/all', async (req, res, next) => {
+  try {
+    const documents = await repository.getDocuments()
+    res.send(documents)
+  } catch (error) {
+    console.log(`Error, ${chalk.red(error)}`)
+    return next(error)
+  }
+})
+
+api.post('/upload', upload.single('file'), async (req, res, next) => {
   try {
     if (!req.file || req.file.fieldname !== 'file') {
       return next(new Error(`not found field`))
@@ -49,6 +59,20 @@ api.post('/save', upload.single('file'), async (req, res, next) => {
         }); */
     const document = await repository.saveDocument(doc)
     res.send(`Document Saved! ${document}`)
+  } catch (error) {
+    console.log(`Error, ${chalk.red(error)}`)
+    return next(error)
+  }
+})
+
+api.get('/download/:uuid', async (req, res, next) => {
+  try {
+    const { uuid } = req.params
+    if (!uuid) {
+      return next(new Error(`bad request`))
+    }
+    const document = await repository.getDocumentByUuid(uuid)
+    res.download(document.path,document.originalname);
   } catch (error) {
     console.log(`Error, ${chalk.red(error)}`)
     return next(error)
