@@ -11,6 +11,7 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const uuidv4 = require('uuid/v4')
+const mkdirp = require('mkdirp')
 const { schemaDocument } = require('./validate/schema')
 const api = asyncify(express.Router())
 
@@ -30,7 +31,10 @@ const upload = multer({ storage: storage })
 api.use('/upload', async (req, res, next) => {
   fs.access(filepath, error => {
     if (error) {
-      fs.mkdir(filepath, err => { return next(err) })
+      mkdirp(filepath, err => {
+        console.log(err)
+        return next(err)
+      })
     }
   })
   next()
