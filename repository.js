@@ -11,18 +11,18 @@ repository.saveDocument = document => {
   return db.ref('documents').push(document)
 }
 
-repository.getDocuments = async () =>  {
-  const documents = util.snapshotToArray (await db.ref('documents').once('value'))
+repository.getDocuments = async () => {
+  const documents = util.snapshotToArray(await db.ref('documents').once('value'))
   return documents
 }
 
-repository.getDocumentByUuid = async (uuid) =>  {
-  const document = util.snapshotToArray (await db.ref(`documents`).orderByChild("uuid").equalTo(uuid).once('value')).shift()
+repository.getDocumentByUuid = async (uuid) => {
+  const document = util.snapshotToArray(await db.ref(`documents`).orderByChild('uuid').equalTo(uuid).once('value')).shift()
   return document
 }
 
-repository.getDocumentByRef = async (ref) =>  {
-  const document = util.snapshotToArray (await db.ref(`documents/${ref}`).once('value')).shift()
+repository.getDocumentByRef = async (ref) => {
+  const document = util.snapshotToArray(await db.ref(`documents/${ref}`).once('value')).shift()
   return document
 }
 

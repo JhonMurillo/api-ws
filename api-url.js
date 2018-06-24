@@ -9,13 +9,15 @@ const repository = require('./repository')
 const joi = require('joi')
 const multer = require('multer')
 const path = require('path')
+const fs = require('fs')
 const uuidv4 = require('uuid/v4')
 const { schemaDocument } = require('./validate/schema')
 const api = asyncify(express.Router())
 
+const filepath = path.join('public', path.sep, 'uploads')
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const filepath = path.join('public', path.sep, 'uploads')
     cb(null, filepath)
   },
   filename: (req, file, cb) => {
@@ -24,6 +26,15 @@ const storage = multer.diskStorage({
   }
 })
 const upload = multer({ storage: storage })
+
+api.use('/upload', async (req, res, next) => {
+  fs.access(filepath, error => {
+    if (error) {
+      fs.mkdir(filepath, err => { return next(err) })
+    }
+  })
+  next()
+})
 
 api.get('/', (req, res, next) => {
   debug(`Request successful, ${chalk.green('Endpoint Worked!')}`)
@@ -57,7 +68,7 @@ api.post('/upload', upload.single('file'), async (req, res, next) => {
       if (err) {
         return next(err)
       }
-    });
+    })
     const document = await repository.saveDocument(doc)
     res.send(`Document Saved! ${document} and uuud ${doc.uuid}`)
   } catch (error) {
@@ -73,7 +84,7 @@ api.get('/download/:uuid', async (req, res, next) => {
       return next(new Error(`bad request`))
     }
     const document = await repository.getDocumentByUuid(uuid)
-    res.download(document.path, document.originalname);
+    res.download(document.path, document.originalname)
   } catch (error) {
     console.log(`Error, ${chalk.red(error)}`)
     return next(error)

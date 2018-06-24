@@ -3,16 +3,15 @@
 const utilsFunc = {}
 
 utilsFunc.snapshotToArray = (snapshot) => {
-    let returnArr = [];
+  let returnArr = []
 
-    snapshot.forEach(function (childSnapshot) {
-        let item = childSnapshot.val();
-        item.key = childSnapshot.key;
-        returnArr.push(item);
-    });
+  snapshot.forEach(function (childSnapshot) {
+    let item = childSnapshot.val()
+    item.key = childSnapshot.key
+    returnArr.push(item)
+  })
 
-    return returnArr;
+  return returnArr
 }
-
 
 module.exports = utilsFunc
