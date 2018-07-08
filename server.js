@@ -13,6 +13,12 @@ const port = process.env.PORT || 4000
 const server = http.createServer(app)
 
 app.use(bodyParser.json())
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/api', api)
 app.use((err, req, res, next) => {
@@ -26,7 +32,7 @@ app.use((err, req, res, next) => {
   res.status(500).send({ error: err.stack })
 })
 
-function handleFatalError (err) {
+function handleFatalError(err) {
   console.error(`${chalk.red('[fatal error]')} ${err.message}`)
   console.error(err.stack)
   process.exit(1)
